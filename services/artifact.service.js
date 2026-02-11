@@ -4,7 +4,8 @@ import Artifact from "../models/artifact.js";
 export const createArtifactService = async ({
     title,
     content,
-    userId
+    userId,
+    filePath
 }) => {
     if(!title || !content) {
         throw new Error('Title and Content are required');
@@ -13,8 +14,10 @@ export const createArtifactService = async ({
     const artifact = await Artifact.create({
         title,
         content,
-        author: userId
+        author: userId,
+        media: filePath || null
     });
+    console.log("Artifact created:", artifact);
     return artifact;    
 };
 
