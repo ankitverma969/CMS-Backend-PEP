@@ -3,15 +3,15 @@ import {
     createArtifact,
     getArtifacts
 } from "../controllers/artifact.controller.js"
-import { authMiddleware} from "../middlewares/auth.middleware.js";
-import { authorizeRoles } from "../middlewares/role.middleware.js";
+import { authMiddleware} from "../middleware/auth.middleware.js";
+import { authorizeRoles } from "../middleware/role.middleware.js";
 
 
 const router = express.Router();
 
 router.post("/create",authMiddleware,createArtifact);
 router.get("/", authMiddleware, getArtifacts);
-// router.get("/", authMiddleware,authorizeRoles("ADMIN"), getArtifacts);
+router.get("/", authMiddleware,authorizeRoles("ADMIN"), getArtifacts);
 
 
 export default router;
