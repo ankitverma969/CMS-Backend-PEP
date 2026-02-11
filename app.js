@@ -6,9 +6,11 @@ import artifactRoutes from "./routes/artifact.routes.js"
 import likeRoutes from "./routes/likes.routes.js"
 import commentRoutes from "./routes/comment.routes.js"
 import cookieParser from "cookie-parser";
+import { testingCron } from "./cron/testing.js";
 
 
 const app = express();
+testingCron();
 
 // Middleware
 app.use(cors());
