@@ -4,10 +4,9 @@ import {
   loginService
 } from "../services/auth.service.js";
 
-/**
- * POST /auth/signup/initiate
- */
+// INITIATE SIGNUP CONTROLLER
 export const initiateSignup = async (req, res) => {
+    console.log("INITIATE SIGNUP CONTROLLER")
   try {
     const { email } = req.body;
 
@@ -33,10 +32,9 @@ export const initiateSignup = async (req, res) => {
   }
 };
 
-/**
- * POST /auth/signup/verify
- */
+// VERIFY SIGNUP CONTROLLER
 export const verifySignupOtp = async (req, res) => {
+    console.log("VERIFY SIGNUP CONTROLLER")
   try {
     const { email, otp, name, password,role } = req.body;
 
@@ -69,8 +67,10 @@ export const verifySignupOtp = async (req, res) => {
 };
 
 
+// LOGIN CONTROLLER
 export const login = async (req, res) => {
-  try {
+  console.log("LOGIN CONTROLLER")
+    try {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -82,10 +82,17 @@ export const login = async (req, res) => {
 
     const result = await loginService(email, password);
 
+    res.cookie("token",result.token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 1000
+    })
+
     res.status(200).json({
       success: true,
       message: "Login successful",
-      ...result
+      user: result.user
     });
   } catch (error) {
     res.status(401).json({
@@ -94,11 +101,3 @@ export const login = async (req, res) => {
     });
   }
 };
-
-
-// //cookies version  
-
-
-
-
-
