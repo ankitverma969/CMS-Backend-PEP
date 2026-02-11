@@ -1,4 +1,5 @@
 import nodeCron from "node-cron";
+import { artifactSchema } from "../models/artifact.js";
 
 // Schedule a task to run every day at midnight
 export const testingCron = () => {
@@ -13,5 +14,25 @@ export const testingCron = () => {
     nodeCron.schedule("21 15 * * *", () => {
 
         console.log("Running Testing Cron Job function");
+    });
+};
+
+// if draft till 30 days then move to archived
+
+export const moveDraftToArchived = () => {
+
+    nodeCron.schedule("0 0 * * *", async () => {
+        console.log("Running moveDraftToArchived Cron Job function");
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+        try {
+            const result = await artifactSchema.updateMany(
+                { status: "DRAFT", createdAt: { $lte: thirtyDaysAgo } },
+                { status: "ARCHIVED" }
+            );
+            console.log(`Moved ${result.nModified} artifacts from DRAFT to ARCHIVED.`);
+        } catch (error) {
+            console.error("Error moving artifacts from DRAFT to ARCHIVED:", error);
+        }
+
     });
 };
