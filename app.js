@@ -7,6 +7,7 @@ import likeRoutes from "./routes/likes.routes.js"
 import commentRoutes from "./routes/comment.routes.js"
 import cookieParser from "cookie-parser";
 
+
 const app = express();
 
 // Middleware
