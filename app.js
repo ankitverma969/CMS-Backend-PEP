@@ -30,5 +30,6 @@ app.use("/auth",authRoutes);
 app.use("/artifact",artifactRoutes);
 app.use("/likes",likeRoutes);
 app.use("/comments",commentRoutes);
+app.use("/webhooks", await import("./webhooks/webhook.js").then(module => module.default));
 
 export default app;
