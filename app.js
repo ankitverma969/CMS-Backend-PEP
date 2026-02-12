@@ -7,6 +7,7 @@ import likeRoutes from "./routes/likes.routes.js"
 import commentRoutes from "./routes/comment.routes.js"
 import cookieParser from "cookie-parser";
 import { testingCron } from "./cron/testing.js";
+import chatRoutes from "./routes/chat.routes.js";
 
 
 const app = express();
@@ -31,5 +32,8 @@ app.use("/artifact",artifactRoutes);
 app.use("/likes",likeRoutes);
 app.use("/comments",commentRoutes);
 app.use("/webhooks", await import("./webhooks/webhook.js").then(module => module.default));
+
+app.use("/chats", chatRoutes);
+
 
 export default app;
